@@ -4,7 +4,36 @@ import time
 from utime import sleep
 
 
+
+# Imports
+from machine import Pin, I2C
+from ssd1306 import SSD1306_I2C
+import time
+
+# Set up I2C and the pins we're using for it
+i2c=I2C(1,sda=Pin(26), scl=Pin(27), freq=400000)
+
+# Short delay to stop I2C falling over
+time.sleep(1) 
+
+# Define the display and size (128x32)
+display = SSD1306_I2C(128, 64, i2c)
+sda_pin = Pin(26, Pin.IN, Pin.PULL_UP)
+scl_pin = Pin(27, Pin.IN, Pin.PULL_UP)
+while (True):
+    
+# Clear the display first
+    display.fill(0) 
+    display.show()
+    sleep(1)
+    display.fill(1)
+    display.show()
+    sleep(1)
+
+
+
 # -------- Format UUID (bytes → string) --------
+'''
 def format_uuid(b):
     return (
         f"{b[0]:02x}{b[1]:02x}{b[2]:02x}{b[3]:02x}-"
@@ -28,6 +57,7 @@ past_uid = None  # store the last scanned card UID
 
 
 while True:
+    
     reader.init()
     (stat, _) = reader.request(reader.REQIDL)
     if stat != reader.OK:
@@ -45,8 +75,8 @@ while True:
         past_uid = uid_val  # store this UID as the “past” one
 
         # Beep once
-        buzz.value(1)
-        sleep(0.05)
+        buzz.value(1000000)
+        sleep(0.1)
         buzz.value(0)
 
 
@@ -61,4 +91,6 @@ while True:
             sleep(1)
             buzz.value(0)
 
-    sleep(0.2)  
+    sleep(0.2)
+'''
+    
